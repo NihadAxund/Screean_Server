@@ -1,0 +1,25 @@
+﻿<Window x:Class="Screean_Server.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Screean_Server"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d" Name="Windows_Screen"
+        Title="MainWindow"  Height="550" BorderThickness="10" Width="1000" MinWidth="700" MinHeight="450" MouseLeftButtonDown="OnMouseLeftButtonDown" WindowStyle="None" AllowsTransparency="True" Background="#CC0F1728" BorderBrush="#8C673AB7" >
+        <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="11*" />
+        </Grid.RowDefinitions>
+        <WrapPanel VerticalAlignment="Top" HorizontalAlignment="Right">
+            <Button Command="{Binding Exit_btn}" Margin="0,10,10,0" Height="40" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center" >X</Button>
+        </WrapPanel>
+            
+           
+            
+        <WrapPanel Grid.Row="1" Name="Team_List" >
+           
+        </WrapPanel>
+        </Grid>
+</Window>
