@@ -67,8 +67,6 @@ namespace Screean_Server.View
                         }
                         catch (Exception)
                         {
-                            Isokay = false;
-                            this.Close();
                         }
                     }));
 
