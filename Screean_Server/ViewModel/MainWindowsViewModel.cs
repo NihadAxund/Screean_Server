@@ -61,8 +61,9 @@ namespace Screean_Server.ViewModel
                         {
                             Task.Run(() =>
                             {
+                               
                                 var length = 0;
-                                var bytes = new byte[1024 * 7000];
+                                var bytes = new byte[200000];
                                 _Sockets.Add(client);
                                 int index = -1;
                                 _MW.Dispatcher.BeginInvoke(new Action(() =>
@@ -85,6 +86,7 @@ namespace Screean_Server.ViewModel
                                        // Thread.Sleep(1000);
                                         length = client.Receive(bytes);
                                         int IND = _Sockets.IndexOf(client);
+                                        Task.Delay(100);
                                         _MW.Dispatcher.BeginInvoke(new Action(() => { 
                                             if (_MW.Team_List.Children[IND] is Client_Uc user && user.Isokay)
                                             {

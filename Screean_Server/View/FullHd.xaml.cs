@@ -46,9 +46,9 @@ namespace Screean_Server.View
             {
                 try
                 {
-                    var bytes = new byte[1024 * 7000];
+                    var bytes = new byte[300000];
                     length = Client.Receive(bytes);
-  
+                   // MessageBox.Show(length.ToString());
                     this.Dispatcher.Invoke(new Action(() =>
                     {
                         var bitmapImage = new BitmapImage();
