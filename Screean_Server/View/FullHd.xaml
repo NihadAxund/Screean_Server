@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Screean_Server.View"
         mc:Ignorable="d"
-        Title="FullHd" Height="450" Width="800" Name="HD_Screen">
+        Title="FullHd" Height="450" Width="800" Name="HD_Screen" Background="Black">
     <Grid>
-        
+        <Label Name="byte_txt" Foreground="#DDFFFFFF" HorizontalAlignment="Right" FontSize="18" VerticalAlignment="Bottom" Margin="20" FontFamily="Arial Black" >Nihad</Label>
     </Grid>
 </Window>

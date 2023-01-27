@@ -86,7 +86,7 @@ namespace Screean_Server.ViewModel
                                        // Thread.Sleep(1000);
                                         length = client.Receive(bytes);
                                         int IND = _Sockets.IndexOf(client);
-                                        Task.Delay(100);
+                                       // Task.Delay(100);
                                         _MW.Dispatcher.BeginInvoke(new Action(() => { 
                                             if (_MW.Team_List.Children[IND] is Client_Uc user && user.Isokay)
                                             {

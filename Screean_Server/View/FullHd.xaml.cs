@@ -46,12 +46,13 @@ namespace Screean_Server.View
             {
                 try
                 {
-                    var bytes = new byte[300000];
+                    var bytes = new byte[310000];
                     length = Client.Receive(bytes);
                    // MessageBox.Show(length.ToString());
                     this.Dispatcher.Invoke(new Action(() =>
                     {
                         var bitmapImage = new BitmapImage();
+                        byte_txt.Content = length.ToString();
                         try
                         {
                             using (var memoryStream = new MemoryStream(bytes, 0, length))
@@ -60,6 +61,7 @@ namespace Screean_Server.View
                                 bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
                                 bitmapImage.StreamSource = memoryStream;
                                 bitmapImage.EndInit();
+                                bitmapImage.Freeze();
                                 memoryStream.Close();
                             }
                             HD_Screen.Background = new ImageBrush(bitmapImage);
