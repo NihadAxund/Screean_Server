@@ -47,94 +47,103 @@ namespace Screean_Server.ViewModel
         {
             var idAddres = IPAddress.Any;
             int port = 27009;
-            using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+            try
             {
-                var EP = new IPEndPoint(idAddres, port);
-                socket.Bind(EP);
-                socket.Listen(10);
-                try
+                using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
                 {
-                    while (true)
+                    var EP = new IPEndPoint(idAddres, port);
+                    socket.Bind(EP);
+                    socket.Listen(10);
+                    try
                     {
-                        var client = socket.Accept();
-                        lock (client)
+                        while (true)
                         {
-                            Task.Run(() =>
+                            var client = socket.Accept();
+                            lock (client)
                             {
+                                Task.Run(() =>
+                                {
                                
-                                var length = 0;
-                                var bytes = new byte[200000];
-                                _Sockets.Add(client);
-                                int index = -1;
-                                _MW.Dispatcher.BeginInvoke(new Action(() =>
-                                {
-                                    var UC = NewUC(_MW.Team_List.Children.Count,client);
-                                   // MessageBox.Show(_MW.Team_List.Children.Count.ToString());
-                                    UC.Select_Index = _MW.Team_List.Children.Count;
-                                    _MW.Team_List.Children.Add(UC);
-                                    index = _MW.Team_List.Children.IndexOf(UC);
-                                    //if (_MW.Team_List.Children[index] is Client_Uc uc)
-                                    //{
-                                    //    uc.Select_Index = index;
-                                    //}
-                                }));
-                                do
-                                {
-                                    try
+                                    var length = 0;
+                                    var bytes = new byte[300000];
+                                    _Sockets.Add(client);
+                                    int index = -1;
+                                    _MW.Dispatcher.BeginInvoke(new Action(() =>
                                     {
-                                      //  MessageBox.Show(IND.ToString());
-                                       // Thread.Sleep(1000);
-                                        length = client.Receive(bytes);
-                                        int IND = _Sockets.IndexOf(client);
-                                       // Task.Delay(100);
-                                        _MW.Dispatcher.BeginInvoke(new Action(() => { 
-                                            if (_MW.Team_List.Children[IND] is Client_Uc user && user.Isokay)
-                                            {
-                                                try
+                                        var UC = NewUC(_MW.Team_List.Children.Count,client);
+                                       // MessageBox.Show(_MW.Team_List.Children.Count.ToString());
+                                        UC.Select_Index = _MW.Team_List.Children.Count;
+                                        _MW.Team_List.Children.Add(UC);
+                                        index = _MW.Team_List.Children.IndexOf(UC);
+                                        //if (_MW.Team_List.Children[index] is Client_Uc uc)
+                                        //{
+                                        //    uc.Select_Index = index;
+                                        //}
+                                    }));
+                                    do
+                                    {
+                                        try
+                                        {
+                                          //  MessageBox.Show(IND.ToString());
+                                           // Thread.Sleep(1000);
+                                            length = client.Receive(bytes);
+                                            int IND = _Sockets.IndexOf(client);
+                                           // Task.Delay(100);
+                                            _MW.Dispatcher.BeginInvoke(new Action(() => { 
+                                                if (_MW.Team_List.Children[IND] is Client_Uc user && user.Isokay)
                                                 {
-                                                    var bitmapImage = new BitmapImage();
-                                                    using (var memoryStream = new MemoryStream(bytes, 0, length))
+                                                    try
                                                     {
-                                                        bitmapImage.BeginInit();
-                                                        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                                                        bitmapImage.StreamSource = memoryStream;
-                                                        bitmapImage.EndInit();
-                                                        memoryStream.Close();
+                                                        var bitmapImage = new BitmapImage();
+                                                        using (var memoryStream = new MemoryStream(bytes, 0, length))
+                                                        {
+                                                            bitmapImage.BeginInit();
+                                                            bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                                                            bitmapImage.StreamSource = memoryStream;
+                                                            bitmapImage.EndInit();
+                                                            memoryStream.Close();
+                                                        }
+                                                        user.Screen_Img.Background = new ImageBrush(bitmapImage);
+
                                                     }
-                                                    user.Screen_Img.Background = new ImageBrush(bitmapImage);
-
-                                                }
-                                                catch
-                                                {
+                                                    catch
+                                                    {
                                                  
-                                                }
+                                                    }
                                                     
-                                            }                                  
-                                        }));
-                                    }
-                                    catch (Exception)
-                                    {
-                                        int ind = _Sockets.IndexOf(client);
-                                     //   MessageBox.Show(ind.ToString());
-                                         client.Shutdown(SocketShutdown.Both);
-                                        _Sockets[ind].Shutdown(SocketShutdown.Both);
-                                        _Sockets.RemoveAt(ind);
-                                        _MW.Dispatcher.Invoke(new Action(() => { _MW.Team_List.Children.RemoveAt(ind); }));
-                                        break;
-                                    }
-                                }while (true);
+                                                }                                  
+                                            }));
+                                        }
+                                        catch (Exception)
+                                        {
+                                            int ind = _Sockets.IndexOf(client);
+                                         //   MessageBox.Show(ind.ToString());
+                                             client.Shutdown(SocketShutdown.Both);
+                                            _Sockets[ind].Shutdown(SocketShutdown.Both);
+                                            _Sockets.RemoveAt(ind);
+                                            _MW.Dispatcher.Invoke(new Action(() => { _MW.Team_List.Children.RemoveAt(ind); }));
+                                            break;
+                                        }
+                                    }while (true);
 
-                            });
+                                });
 
+                            }
                         }
                     }
-                }
-                catch (Exception)
-                {
-
-                }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("a");
+                    }
              
 
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }

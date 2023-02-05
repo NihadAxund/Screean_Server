@@ -46,7 +46,7 @@ namespace Screean_Server.View
             {
                 try
                 {
-                    var bytes = new byte[310000];
+                    var bytes = new byte[350000];
                     length = Client.Receive(bytes);
                    // MessageBox.Show(length.ToString());
                     this.Dispatcher.Invoke(new Action(() =>
